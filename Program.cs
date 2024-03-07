@@ -41,6 +41,7 @@ internal class Program
     });
     builder.Services.AddControllers();
     builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+    builder.Services.AddScoped<IAuthServices, AuthServices>();
     builder.Services.AddScoped<IUsersServices, UsersServices>();
     builder.Services.AddAutoMapper(typeof(UsersMapping));
     builder.Services.AddEndpointsApiExplorer();
