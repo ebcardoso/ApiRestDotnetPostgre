@@ -1,4 +1,8 @@
 using System.Text;
+using ApiRestPostgre.Api.Application.Service;
+using ApiRestPostgre.Api.Application.ServiceInterfaces;
+using ApiRestPostgre.Api.Domain.Repositories;
+using ApiRestPostgre.Api.Domain.RepositoryInterfaces;
 using ApiRestPostgre.Api.Infrastructure.Context;
 using ApiRestPostgre.Api.Presentation.Mapping;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -36,6 +40,8 @@ internal class Program
       };
     });
     builder.Services.AddControllers();
+    builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+    builder.Services.AddScoped<IUsersServices, UsersServices>();
     builder.Services.AddAutoMapper(typeof(UsersMapping));
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
