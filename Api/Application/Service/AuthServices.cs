@@ -23,6 +23,27 @@ public class AuthServices : IAuthServices
     _configuration = configuration;
   }
 
+  public async Task<bool> AuthenticateASync(string email, string password)
+  {
+    var user = await _usersRepository.GetByEmail(email);
+    if (user == null)
+    {
+      return false;
+    }
+
+    using var hmac = new HMACSHA512(user.PasswordSalt);
+    var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+    for (int x=0; x < computedHash.Length; x++)
+    {
+      if (computedHash[x] != user.PasswordHash[x])
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public async Task<bool> UserExists(string email)
   {
     var user = await _usersRepository.GetByEmail(email);
@@ -53,5 +74,11 @@ public class AuthServices : IAuthServices
       signingCredentials: credentials
     );
     return new JwtSecurityTokenHandler().WriteToken(token);
+  }
+
+  public async Task<UserDTO> GetUserByEmail(string email)
+  {
+    var model = await _usersRepository.GetByEmail(email);
+    return _mapper.Map<UserDTO>(model);
   }
 }

@@ -45,4 +45,27 @@ public class AuthController : ControllerBase
     var signupResponse = new SignupResponse { Token = token };
     return signupResponse;
   }
+
+  [HttpPost("signin")]
+  public async Task<ActionResult<SigninResponse>> Signin(SigninRequest loginReq)
+  {
+    var emailExists = await _authServices.UserExists(loginReq.Email);
+    if (!emailExists)
+    {
+      var response = new ErrorResponse{ Message = "User not found"};
+      return NotFound(response);
+    }
+
+    var result = await _authServices.AuthenticateASync(loginReq.Email, loginReq.Password);
+    if (!result)
+    {
+      var response = new ErrorResponse{ Message = "User or password invalid."};
+      return Unauthorized(response);
+    }
+
+    var user = await _authServices.GetUserByEmail(loginReq.Email);
+    var token = _authServices.GenerateToken(user.Id, user.Email);
+    var signinResponse = new SigninResponse { Token = token };
+    return signinResponse;
+  }
 }
