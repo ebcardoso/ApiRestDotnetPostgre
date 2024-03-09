@@ -19,6 +19,12 @@ public class UsersServices : IUsersServices
     _mapper = mapper;
   }
 
+  public async Task<IEnumerable<UserDTO>> GetAllAsync()
+  {
+    var models = await _usersRepository.GetAllAsync();
+    return _mapper.Map<IEnumerable<UserDTO>>(models);
+  }
+
   public async Task<UserDTO> Create(UserDTO modelDTO)
   {
     var model = _mapper.Map<User>(modelDTO);

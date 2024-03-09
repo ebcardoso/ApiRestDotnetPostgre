@@ -20,6 +20,11 @@ public class UsersRepository : IUsersRepository
     return model;
   }
 
+  public async Task<IEnumerable<User>> GetAllAsync()
+  {
+    return await _context.Users.ToListAsync();
+  }
+
   public async Task<User> Create(User model)
   {
     _context.Users.Add(model);
