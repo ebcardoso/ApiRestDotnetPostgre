@@ -25,6 +25,18 @@ public class UsersController : ControllerBase
     return modelsDTO;
   }
 
+  [HttpGet("{id}")]
+  public async Task<ActionResult<UserDTO>> GetUser(int id)
+  {
+    var modelDTO = await _usersServices.GetByID(id);
+    if (modelDTO == null)
+    {
+      var response = new ErrorResponse{ Message = "User not found."};
+      return NotFound(response);
+    }
+    return modelDTO;
+  }
+
   [HttpPost]
   public async Task<ActionResult<UserDTO>> CreateUser(UserDTO modelDTO)
   {
