@@ -25,6 +25,12 @@ public class UsersServices : IUsersServices
     return _mapper.Map<IEnumerable<UserDTO>>(models);
   }
 
+  public async Task<UserDTO> GetByID(int id)
+  {
+    var model = await _usersRepository.GetByID(id);
+    return _mapper.Map<UserDTO>(model);
+  }
+
   public async Task<UserDTO> Create(UserDTO modelDTO)
   {
     var model = _mapper.Map<User>(modelDTO);
@@ -37,5 +43,17 @@ public class UsersServices : IUsersServices
     }    
     var modelCreated = await _usersRepository.Create(model);
     return _mapper.Map<UserDTO>(modelCreated);
+  }
+
+  public async Task<UserDTO> Update(UserDTO modelDTO)
+  {
+    var model = _mapper.Map<User>(modelDTO);
+    var modelChanged = await _usersRepository.Update(model);
+    return _mapper.Map<UserDTO>(modelChanged);
+  }
+
+  public bool UserExists(int id)
+  {
+    return _usersRepository.UserExists(id);
   }
 }

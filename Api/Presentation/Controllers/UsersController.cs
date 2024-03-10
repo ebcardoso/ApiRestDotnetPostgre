@@ -38,4 +38,23 @@ public class UsersController : ControllerBase
     var model = await _usersServices.Create(modelDTO);
     return model;
   }
+
+  [HttpPut]
+  public async Task<ActionResult<UserDTO>> UpdateBrand(UserDTO modelDTO)
+  {
+    if (modelDTO.Id == 0)
+    {
+      var response = new ErrorResponse{ Message = "Id is necessary to update a user."};
+      return BadRequest(response);
+    }
+
+    if(!_usersServices.UserExists(modelDTO.Id))
+    {
+      var response = new ErrorResponse{ Message = "User not found."};
+      return NotFound(response);
+    }
+
+    var model = await _usersServices.Update(modelDTO);
+    return model;
+  }
 }
