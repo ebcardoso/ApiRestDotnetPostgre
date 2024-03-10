@@ -40,7 +40,7 @@ public class UsersController : ControllerBase
   }
 
   [HttpPut]
-  public async Task<ActionResult<UserDTO>> UpdateBrand(UserDTO modelDTO)
+  public async Task<ActionResult<UserDTO>> UpdateModel(UserDTO modelDTO)
   {
     if (modelDTO.Id == 0)
     {
@@ -55,6 +55,19 @@ public class UsersController : ControllerBase
     }
 
     var model = await _usersServices.Update(modelDTO);
+    return model;
+  }
+
+  [HttpDelete("{id}")]
+  public async Task<ActionResult<UserDTO>> DeleteUser(int id)
+  {
+    if(!_usersServices.UserExists(id))
+    {
+      var response = new ErrorResponse{ Message = "User not found."};
+      return NotFound(response);
+    }
+
+    var model = await _usersServices.Delete(id);
     return model;
   }
 }

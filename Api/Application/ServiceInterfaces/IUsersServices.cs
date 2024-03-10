@@ -8,5 +8,6 @@ public interface IUsersServices
   Task<UserDTO> GetByID(int id);
   Task<UserDTO> Create(UserDTO model);
   Task<UserDTO> Update(UserDTO modelDTO);
+  Task<UserDTO> Delete(int id);
   bool UserExists(int id);
 }

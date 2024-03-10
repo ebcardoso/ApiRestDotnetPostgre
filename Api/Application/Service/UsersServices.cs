@@ -52,6 +52,12 @@ public class UsersServices : IUsersServices
     return _mapper.Map<UserDTO>(modelChanged);
   }
 
+  public async Task<UserDTO> Delete(int id)
+  {
+    var modelDeleted = await _usersRepository.Delete(id);
+    return _mapper.Map<UserDTO>(modelDeleted);
+  }
+
   public bool UserExists(int id)
   {
     return _usersRepository.UserExists(id);

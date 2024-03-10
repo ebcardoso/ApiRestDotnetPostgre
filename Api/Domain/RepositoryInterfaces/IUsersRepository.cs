@@ -9,5 +9,6 @@ public interface IUsersRepository
   Task<User> GetByEmail(string email);
   Task<User> Create(User model);
   Task<User> Update(User model);
+  Task<User> Delete(int id);
   bool UserExists(int id);
 }

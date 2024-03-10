@@ -45,6 +45,18 @@ public class UsersRepository : IUsersRepository
     return model;
   }
 
+  public async Task<User> Delete(int id)
+  {
+    var model = await GetByID(id);
+    if (model != null)
+    {
+      _context.Users.Remove(model);
+      await _context.SaveChangesAsync();
+      return model;
+    }
+    return null;
+  }
+
   public bool UserExists(int id)
   {
     return _context.Users.Any(e => e.Id == id);
