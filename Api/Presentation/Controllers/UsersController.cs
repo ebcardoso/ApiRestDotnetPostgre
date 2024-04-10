@@ -1,12 +1,16 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ApiRestPostgre.Api.Application.ServiceInterfaces;
 using ApiRestPostgre.Api.Application.DTO;
+using ApiRestPostgre.Api.Infrastructure.Extensions;
 using ApiRestPostgre.Api.Presentation.Responses.Auth;
+using ApiRestPostgre.Api.Presentation.Models;
 
 namespace ApiRestPostgre.Api.Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class UsersController : ControllerBase
 {
   private readonly IUsersServices _usersServices;
@@ -19,9 +23,13 @@ public class UsersController : ControllerBase
   }
 
   [HttpGet]
-  public async Task<IEnumerable<UserDTO>> GetUsers()
+  public async Task<IEnumerable<UserDTO>> GetUsers([FromQuery]PaginationParams paginationParams)
   {
-    var modelsDTO = await _usersServices.GetAllAsync();
+    var modelsDTO = await _usersServices.GetAllAsync(paginationParams.PageNumber, paginationParams.PageSize);
+
+    Response.AddPaginationHeader(new PaginationHeader(modelsDTO.CurrentPage,
+      modelsDTO.PageSize, modelsDTO.TotalCount, modelsDTO.TotalPages));
+
     return modelsDTO;
   }
 

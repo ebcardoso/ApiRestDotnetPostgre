@@ -1,5 +1,5 @@
 using System.Text.Json;
-using ApiRestPostgre.Api.Presentation.Controllers;
+using ApiRestPostgre.Api.Presentation.Models;
 
 namespace ApiRestPostgre.Api.Infrastructure.Extensions;
 

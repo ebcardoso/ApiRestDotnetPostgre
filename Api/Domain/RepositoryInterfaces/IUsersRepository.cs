@@ -1,10 +1,11 @@
 using ApiRestPostgre.Api.Domain.Models;
+using ApiRestPostgre.Api.Domain.Pagination;
 
 namespace ApiRestPostgre.Api.Domain.RepositoryInterfaces;
 
 public interface IUsersRepository
 {
-  Task<IEnumerable<User>> GetAllAsync();
+  Task<PagedList<User>> GetAllAsync(int pageNumber, int pageSize);
   Task<User> GetByID(int id);
   Task<User> GetByEmail(string email);
   Task<User> Create(User model);

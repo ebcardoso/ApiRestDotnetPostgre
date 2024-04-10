@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using ApiRestPostgre.Api.Domain.RepositoryInterfaces;
 using ApiRestPostgre.Api.Domain.Models;
 using ApiRestPostgre.Api.Infrastructure.Context;
+using ApiRestPostgre.Api.Domain.Pagination;
+using ApiRestPostgre.Api.Infrastructure.Helpers;
 
 namespace ApiRestPostgre.Api.Domain.Repositories;
 
@@ -14,9 +16,10 @@ public class UsersRepository : IUsersRepository
     _context = context;
   }
 
-  public async Task<IEnumerable<User>> GetAllAsync()
+  public async Task<PagedList<User>> GetAllAsync(int pageNumber, int pageSize)
   {
-    return await _context.Users.ToListAsync();
+    var query = _context.Users.AsQueryable();
+    return await PaginationHelper.CreateAsync(query, pageNumber, pageSize);
   }
 
   public async Task<User> GetByID(int id)

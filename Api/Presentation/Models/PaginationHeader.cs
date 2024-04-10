@@ -1,4 +1,4 @@
-namespace ApiRestPostgre.Api.Presentation.Controllers;
+namespace ApiRestPostgre.Api.Presentation.Models;
 
 public class PaginationHeader
 {

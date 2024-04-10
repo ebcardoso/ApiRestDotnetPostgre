@@ -5,6 +5,7 @@ using ApiRestPostgre.Api.Application.ServiceInterfaces;
 using ApiRestPostgre.Api.Domain.RepositoryInterfaces;
 using ApiRestPostgre.Api.Application.DTO;
 using ApiRestPostgre.Api.Domain.Models;
+using ApiRestPostgre.Api.Domain.Pagination;
 
 namespace ApiRestPostgre.Api.Application.Service;
 
@@ -19,10 +20,11 @@ public class UsersServices : IUsersServices
     _mapper = mapper;
   }
 
-  public async Task<IEnumerable<UserDTO>> GetAllAsync()
+  public async Task<PagedList<UserDTO>> GetAllAsync(int pageNumber, int pageSize)
   {
-    var models = await _usersRepository.GetAllAsync();
-    return _mapper.Map<IEnumerable<UserDTO>>(models);
+    var models = await _usersRepository.GetAllAsync(pageNumber, pageSize);
+    var modelsDTO = _mapper.Map<IEnumerable<UserDTO>>(models);
+    return new PagedList<UserDTO>(modelsDTO, pageNumber, pageSize, models.TotalCount);
   }
 
   public async Task<UserDTO> GetByID(int id)
