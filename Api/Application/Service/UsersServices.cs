@@ -20,17 +20,17 @@ public class UsersServices : IUsersServices
     _mapper = mapper;
   }
 
-  public async Task<PagedList<UserDTO>> GetAllAsync(int pageNumber, int pageSize)
+  public async Task<PagedList<UserGetDTO>> GetAllAsync(int pageNumber, int pageSize)
   {
     var models = await _usersRepository.GetAllAsync(pageNumber, pageSize);
-    var modelsDTO = _mapper.Map<IEnumerable<UserDTO>>(models);
-    return new PagedList<UserDTO>(modelsDTO, pageNumber, pageSize, models.TotalCount);
+    var modelsDTO = _mapper.Map<IEnumerable<UserGetDTO>>(models);
+    return new PagedList<UserGetDTO>(modelsDTO, pageNumber, pageSize, models.TotalCount);
   }
 
-  public async Task<UserDTO> GetByID(int id)
+  public async Task<UserGetDTO> GetByID(int id)
   {
     var model = await _usersRepository.GetByID(id);
-    return _mapper.Map<UserDTO>(model);
+    return _mapper.Map<UserGetDTO>(model);
   }
 
   public async Task<UserDTO> Create(UserDTO modelDTO)

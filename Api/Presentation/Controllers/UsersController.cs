@@ -23,7 +23,7 @@ public class UsersController : ControllerBase
   }
 
   [HttpGet]
-  public async Task<IEnumerable<UserDTO>> GetUsers([FromQuery]PaginationParams paginationParams)
+  public async Task<IEnumerable<UserGetDTO>> GetUsers([FromQuery]PaginationParams paginationParams)
   {
     var modelsDTO = await _usersServices.GetAllAsync(paginationParams.PageNumber, paginationParams.PageSize);
 
@@ -34,7 +34,7 @@ public class UsersController : ControllerBase
   }
 
   [HttpGet("{id}")]
-  public async Task<ActionResult<UserDTO>> GetUser(int id)
+  public async Task<ActionResult<UserGetDTO>> GetUser(int id)
   {
     var modelDTO = await _usersServices.GetByID(id);
     if (modelDTO == null)
